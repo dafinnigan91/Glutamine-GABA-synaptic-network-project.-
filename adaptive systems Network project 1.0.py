@@ -711,7 +711,7 @@ for node in Net.nodes:
     np.save(filename, np.array(neuron.Vm_history))
 
  # REMOVE EDITOUT OPERATIRS AS AND WEHN CODE IS NEEDED TO BE PLOTTED AND ANALYSED   
-'''plt.figure(figsize=(12, 6))
+plt.figure(figsize=(12, 6))
 for u, v, data in Net.edges(data=True):
     synapse = data["synapse"]
     label = f"{u}→{v}"
@@ -803,4 +803,3 @@ plt.title("Lyapunov Exponent vs. Binding Probability")
 plt.grid(True)
 plt.tight_layout()
 plt.show()
-'''
