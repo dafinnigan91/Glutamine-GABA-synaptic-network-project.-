@@ -239,7 +239,7 @@ MSc AI & Adaptive Systems (Distinction), University of Sussex
 
 - 🔗 Research Focus: Computational Neuroscience, Network Science, Multi-Agent Coordination
 - 💻 GitHub: [@dafinnigan91](https://github.com/dafinnigan91)
-- 📧 Contact: [Your Email]
+- 📧 Contact: df209@sussex.ac.uk
 
 ---
 
