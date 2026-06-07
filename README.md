@@ -1,205 +1,204 @@
-# Glutamine-GABA-synaptic-network-project.-
+🧠 Overview
+A computational model of biologically-inspired neural networks featuring both excitatory (glutamatergic) and inhibitory (GABAergic) synapses. This project explores adaptive behavior and chaotic dynamics in artificial neural circuits through parameter analysis and Lyapunov exponent characterization.
+Key Features
 
-# Synaptic Dynamics Simulation
+Biologically synaptic mechanisms (AMPA/NMDA/GABA-A/GABA-B receptors)
+Dynamic plasticity with calcium-dependent LTP/LTD
+Network-level coordination using NetworkX graph structures
+Chaos analysis via Lyapunov exponent calculation
+Parameter sweeps for vesicle release probability analysis
+Membrane potential computation using Goldman-Hodgkin-Katz equation
 
-A comprehensive computational model of glutamatergic and GABAergic synaptic transmission with dynamic ion concentrations, receptor kinetics, and synaptic plasticity mechanisms.
+Research Significance
+This work bridges computational neuroscience, network science, and adaptive systems theory to understand how biological coordination mechanisms can inform artificial neural architectures.
 
-## Overview
+Applications
+Neuromorphic AI system design
+Bio-inspired robotics control systems
+Adaptive learning algorithm development
+Neural network stability analysis
 
-This project implements a detailed biophysical simulation of synaptic function, modeling the complex interactions between neurotransmitter release, receptor binding, ion flux, and membrane potential dynamics. The simulation captures both excitatory (glutamate) and inhibitory (GABA) synaptic transmission with realistic plasticity mechanisms.
+System Architecture
+Network Structure
+N1 (Input) ──[Glu]──> N2 (GABAergic)
+     │                    │
+     └───[Glu]──> N3 ──[Glu]──> N4 (Output)
+                           ↑
+                      [GABA] inhibition from N2
+Synaptic Components
 
-## Features
+Glutamatergic Synapses: AMPA/NMDA receptor dynamics with calcium-dependent plasticity
+GABAergic Synapses: GABA-A/GABA-B mediated inhibition with homeostatic regulation
+Ion Dynamics: Na⁺, K⁺, Cl⁻, Ca²⁺ concentration modeling with realistic pumps and leaks
 
-### Biophysical Accuracy
-- **Goldman-Hodgkin-Katz equation** for dynamic membrane potential calculation
-- ** ion concentrations** (Na⁺, K⁺, Cl⁻, Ca²⁺) with proper equilibrium values
-- **Vesicle release dynamics** with probabilistic neurotransmitter release
-- **Receptor kinetics** for AMPA, NMDA, GABA-A, and GABA-B receptors
+Key Results
+Adaptive Behavior
+✅ Synaptic plasticity responds to calcium thresholds
+✅ Homeostatic regulation prevents runaway dynamics
+✅ Noise robustness integrates perturbations appropriately
+✅ Realistic inhibition demonstrates IPSP suppression
 
-### Synaptic Transmission
-- **Glutamatergic synapses**: AMPAR and NMDAR with Mg²⁺ block mechanism
-- **GABAergic synapses**: GABA-A and GABA-B receptor dynamics
-- **Calcium-dependent plasticity** (LTP/LTD mechanisms)
-- **Activity-dependent receptor trafficking**
+Chaos Analysis
 
-### Physiological Mechanisms
-- **Ion pumps** for membrane potential stabilization
-- **Passive ion decay** and leak currents
-- **Neurotransmitter clearance** by transporters
-- **Synaptic depression** and facilitation
+Lyapunov exponents reveal sensitivity to vesicle release probability
+Parameter sweeps show transitions between chaotic and stable regimes
+Lower release probabilities → Higher sensitivity (λ ≈ 8.208)
+Higher release probabilities → Increased stability
 
-## Scientific Background
+Quick Start
+Prerequisites
+bashpip install numpy matplotlib networkx pandas
+Basic Usage
+pythonfrom neural_network_model import *
 
-### Glutamatergic Synapses
-The simulation models excitatory synaptic transmission through:
-- **AMPA receptors**: Fast excitatory currents (Na⁺/K⁺)
-- **NMDA receptors**: Slow, Ca²⁺-permeable currents with voltage dependence
-- **Calcium-dependent plasticity**: Receptor insertion/removal based on Ca²⁺ thresholds
+# Initialize network with 4 neurons
+network = create_neural_network()
 
-### GABAergic Synapses  
-Inhibitory transmission is modeled via:
-- **GABA-A receptors**: Fast inhibitory currents (Cl⁻)
-- **GABA-B receptors**: Slow, metabotropic K⁺ currents
-- **Activity-dependent inhibitory plasticity**
+# Run simulation with default parameters
+results = run_simulation(timesteps=9999, release_prob=0.8)
 
-## Installation
+# Analyze results
+plot_membrane_potentials(results)
+plot_receptor_dynamics(results)
+calculate_lyapunov_exponent(results)
+Parameter Sweep Analysis
+python# Test range of release probabilities
+prob_range = np.linspace(0.01, 1.0, 20)
+lyapunov_results = []
 
-### Requirements
-```bash
-pip install numpy matplotlib pandas
-```
+for prob in prob_range:
+    lyap = compute_lyapunov_exponent(prob)
+    lyapunov_results.append(lyap)
 
-### Dependencies
-- `numpy` - Numerical computations
-- `matplotlib` - Visualization and plotting
-- `pandas` - Data handling and export
-- `random` - Stochastic processes
-- `sys` - Parameter input handling
+plot_chaos_analysis(prob_range, lyapunov_results)
 
-## Usage
+📁 Project Structure
+neural-synaptic-modeling/
+├── src/
+│   ├── synaptic_models.py          # Core synapse classes
+│   ├── network_simulation.py      # NetworkX integration
+│   ├── analysis_tools.py           # Lyapunov & parameter analysis
+│   └── visualization.py           # Plotting functions
+├── data/
+│   ├── baseline_parameters.json   # Default ion concentrations
+│   └── results/                   # Simulation outputs
+├── docs/
+│   ├── mathematical_framework.md  # GHK equation derivations
+│   ├── biological_background.md   # Synaptic mechanisms
+│   └── chaos_theory.md           # Lyapunov analysis theory
+├── tests/
+│   ├── test_synapses.py           # Unit tests
+│   └── test_network.py            # Integration tests
+└── examples/
+    ├── basic_simulation.py        # Getting started
+    ├── parameter_sweep.py         # Chaos analysis
+    └── custom_network.py          # Advanced usage
 
-### Basic Simulation
-```bash
-python synapse_simulation.py [vesicle_release_probability]
-```
+Mathematical Framework
+Goldman-Hodgkin-Katz Equation
+Vm = (RT/F) × ln[(PK[K+]out + PNa[Na+]out + PCl[Cl-]in + PCa[Ca2+]out) / 
+                  (PK[K+]in + PNa[Na+]in + PCl[Cl-]out + PCa[Ca2+]in)]
+Lyapunov Exponent Calculation
+pythondef compute_lyapunov_exponent(binding_prob, delta=1e-5, timesteps=9999):
+    """
+    Quantifies system sensitivity to initial conditions
+    
+    Returns:
+        float: Lyapunov exponent (λ > 0 indicates chaos)
+    """
+    trajectory1 = simulate_system(binding_prob)
+    trajectory2 = simulate_system(binding_prob + delta)
+    
+    divergence = np.abs(trajectory1 - trajectory2)
+    divergence[divergence == 0] = 1e-8
+    
+    return np.mean(np.log(divergence / delta))
 
-### Parameter Sweep
-```bash
-# Run with different release probabilities
-python synapse_simulation.py 0.8
-python synapse_simulation.py 0.6
-python synapse_simulation.py 0.4
-```
+Research Methods
+Synaptic Plasticity Rules
 
-### Example Output
-The simulation generates:
-- **Time series plots** of membrane potential, receptor dynamics, and ion concentrations
-- **Excel export** of all tracked variables
-- **NumPy arrays** for further analysis
+LTP Induction: Ca²⁺ > threshold → AMPAR insertion (200-300 units)
+LTD Induction: Prolonged low Ca²⁺ → AMPAR removal (50-100 units)
+Homeostatic Bounds: Receptor counts clamped to realistic ranges
+Vesicle Dynamics: Stochastic release with fatigue and recovery
 
-## Key Parameters
+Network Validation
 
-### Synaptic Parameters
-| Parameter | Value | Description |
-|-----------|-------|-------------|
-| `P_r` | 0.8 | Vesicle release probability |
-| `GLu_mol_Vescl` | 3000 | Glutamate molecules per vesicle |
-| `AMPAR_initial` | 500 | Initial AMPA receptor count |
-| `NMDAR` | 50 | NMDA receptor count |
-| `Ca_threshold` | 40 | Calcium threshold for plasticity |
-
-### Ion Concentrations (mM)
-| Ion | Intracellular | Extracellular |
-|-----|---------------|---------------|
-| Na⁺ | 15.0 | 145.0 |
-| K⁺ | 127.0 | 5.0 |
-| Cl⁻ | 4.0 | 110.0 |
-| Ca²⁺ | 0.0001 | 0.1 |
-
-## Model Architecture
-
-### Class Structure
-```python
-class Gultamatergic_Synaps:
-    - AMPAR/NMDAR binding and kinetics
-    - Calcium-dependent plasticity
-    - Ion flux calculations
-    - Receptor trafficking
-
-class GABAergic_Synaps:
-    - GABA-A/GABA-B receptor dynamics
-    - Inhibitory plasticity mechanisms
-    - Chloride and potassium currents
-```
-
-### Key Functions
-- `Membrain_potential()` - Goldman-Hodgkin-Katz calculation
-- `Ion_Pump()` - Na⁺/K⁺ ATPase simulation
-- `Ion_decay()` - Passive ion equilibration
-- `GLu_leak()` - Neurotransmitter clearance
-
-## Output Data
-
-### Time Series Data
-- Membrane potential (mV)
-- Ion concentrations (mM)
-- Receptor numbers
-- Spike trains
-- Synaptic currents
-
-### Visualization
-- Multi-panel time series plots
-- Ion concentration dynamics
-- Receptor trafficking over time
-- Membrane potential evolution
-
-## Applications
-
-### Research Applications
-- **Synaptic plasticity studies** - LTP/LTD mechanisms
-- **Pharmacological modeling** - Drug effects on receptors
-- **Disease modeling** - Synaptic dysfunction in neurological disorders
-- **Educational tool** - Understanding synaptic physiology
-
-### Computational Neuroscience
-- **Network integration** - Use as building block for neural networks
-- **Parameter exploration** - Systematic parameter space investigation
-- **Model validation** - Compare with experimental data
-
-## Future Developments
-
-### Planned Features
-- *Metabotropic receptor signaling** (mGluR, mAChR)
-- *Calcium buffering systems** (calbindin, calmodulin)
-- *Presynaptic plasticity** (paired-pulse facilitation/depression)
-- *Multi-compartment integration** (dendritic tree modeling)
-- *Stochastic channel dynamics** (single-channel noise)
-
-### Model Extensions
-- *Temperature dependence** of kinetic rates
-- *pH sensitivity** of receptors and channels
-- *Metabolic constraints** on ATP-dependent processes
-- *Glial cell interactions** (astrocyte glutamate uptake)
-
-## Contributing
-
-Contributions are welcome! Areas of interest:
-- **Experimental validation** with patch-clamp data
-- **Parameter optimization** using genetic algorithms
-- **Performance optimization** for large-scale simulations
-- **Documentation improvements** and code cleanup
-
-## References
-
-### Key Publications
-1. **Goldman-Hodgkin-Katz equation**: Hodgkin & Katz (1949) *J Physiol*
-2. **NMDA receptor kinetics**: Jahr & Stevens (1990) *Nature*
-3. **Synaptic plasticity**: Malenka & Bear (2004) *Neuron*
-4. **GABAergic transmission**: Farrant & Nusser (2005) *Nat Rev Neurosci*
-
-### Model Validation
-- Ion concentration ranges from Kandel et al. *Principles of Neural Science*
-- Receptor kinetics from experimental patch-clamp studies
-- Plasticity mechanisms from hippocampal slice preparations
-
-## License
-
-This project is open source. Please cite if used in academic work:
-
-```
-Finnigan, D.A. (2025). Synaptic Dynamics Simulation: A Biophysical Model of 
-Glutamatergic and GABAergic Transmission. GitHub Repository.
-```
-
-## Contact
-
-**David A. Finnigan**  
-MSc AI & Adaptive Systems
-University of Sussex
-
-- GitHub: [@dafinnigan91](https://github.com/dafinnigan91)
-- LinkedIn: [david-finnigan-ai](https://linkedin.com/in/david-finnigan-ai)
-
----
+Signal Propagation: Realistic excitatory transmission N1→N2, N1→N3
+Inhibitory Control: GABAergic suppression N2→N4 prevents runaway excitation
+Membrane Stability: Voltage dynamics remain within physiological bounds
+Noise Integration: Random perturbations absorbed without destabilization
 
 
+Analysis Tools
+Visualization Functions
+python# Membrane potential traces
+plot_membrane_dynamics(neuron_data, neuron_id='N2')
+
+# Receptor evolution over time  
+plot_receptor_plasticity(synapse_data, receptor_type='AMPAR')
+
+# Parameter sensitivity analysis
+plot_parameter_sweep(prob_range, membrane_responses)
+
+# Chaos characterization
+plot_lyapunov_analysis(probabilities, exponents)
+Data Export
+
+NumPy arrays for numerical analysis
+JSON format for parameter configurations
+CSV export for external statistical analysis
+Figure generation for publication-ready plots
+
+Educational Value
+Learning Objectives
+
+Computational Neuroscience: Synaptic mechanisms and plasticity
+Network Science: Graph-based neural connectivity
+Chaos Theory: Sensitivity analysis and stability transitions
+Biological Modeling: Ion dynamics and membrane potentials
+Python Programming: Scientific computing and visualization
+
+Extensions for Students
+
+Add new receptor types (mGluR, GABAB metabotropic)
+Implement action potentials (Hodgkin-Huxley dynamics)
+Expand network size (scale to 100+ neurons)
+Add spatial dynamics (dendritic compartments)
+Include neuromodulation (dopamine, serotonin effects)
+
+Contributing
+I welcome contributions! Areas of particular interest:
+
+Enhanced biological realism (SNARE proteins, G-protein cascades)
+Additional analysis tools (mutual information, transfer entropy)
+Visualization improvements (3D network plots, interactive dashboards)
+
+Development Setup
+bashgit clone https://github.com/dafinnigan91/neural-synaptic-modeling.git
+cd neural-synaptic-modeling
+pip install -r requirements.txt
+pip install -e .  # Install in development mode
+
+# Run tests
+python -m pytest tests/
+
+Key Publications
+
+Synaptic Plasticity: Hebbian learning and calcium-dependent mechanisms
+Chaos in Neural Networks: Lyapunov analysis of biological circuits
+Network Neuroscience: Graph theory applications to brain connectivity
+Computational Models: Biologically-inspired artificial neural systems
+
+Research Context
+This project contributes to understanding how biological coordination mechanisms can inform artificial intelligence architectures. The chaos analysis reveals how release probability acts as a critical control parameter governing network stability—insights applicable to multi-agent AI systems and neuromorphic computing.
+License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+Author
+David Finnigan
+MSc AI & Adaptive Systems (Distinction), University of Sussex
+
+🔗 Research Focus: Computational Neuroscience, Network Science, Multi-Agent Coordination
+💻 GitHub: @dafinnigan91
+📧 Contact: [Your Email]
