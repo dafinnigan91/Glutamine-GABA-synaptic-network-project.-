@@ -31,11 +31,11 @@ This work bridges **computational neuroscience**, **network science**, and **ada
 
 ### Network Structure
 ```
-N1 (Input) ──[Glu]──> N2 (GABAergic)
+N1 (Input) ──[Glu]──> N2 (GABAergic) inhibition
      │                    │
      └───[Glu]──> N3 ──[Glu]──> N4 (Output)
-                           ↑
-                      [GABA] inhibition from N2
+                           
+                 
 ```
 
 ### Synaptic Components
